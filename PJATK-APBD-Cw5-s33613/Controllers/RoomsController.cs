@@ -66,7 +66,7 @@ public class RoomsController : ControllerBase
         return Ok(new RoomDTO(room));
     }
     [HttpGet("building/{buildingCode}")]
-    public IActionResult GetRoomsFromFloor(string? buildingCode)
+    public IActionResult GetRoomsByFloor(string? buildingCode)
     {
         var room = rooms.FirstOrDefault(e => e.BuildingCode == buildingCode);
         if (room is null)
@@ -77,7 +77,7 @@ public class RoomsController : ControllerBase
         return Ok(rooms.Where(e => e.BuildingCode == buildingCode).Select(e => new RoomDTO(e)));
     }
     [HttpPost]
-    public IActionResult Add(CreateRoomDto dto)
+    public IActionResult Add(ChangeRoomDTO dto)
     {
         if (dto.Floor < 0)
             return BadRequest($"Floor {dto.Floor} is invalid");
@@ -139,6 +139,8 @@ public class RoomsController : ControllerBase
         {
             return NotFound($"room with id {id} not found");
         }
+        if (ReservationController.reservations.Any(e => e.RoomId == id))
+            return Conflict($"Room with id {id} has at least one reservation");
     
         rooms.Remove(room);
         return NoContent();
