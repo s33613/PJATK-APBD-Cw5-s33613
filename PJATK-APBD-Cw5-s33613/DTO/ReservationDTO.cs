@@ -4,6 +4,7 @@ namespace PJATK_APBD_Cw5_s33613.DTO;
 
 public class ReservationDTO
 {
+    public int Id { get; set; }
     public int RoomId { get; set; }
     public string OrganizerName { get; set; }
     public string Topic { get; set; }
@@ -14,6 +15,7 @@ public class ReservationDTO
 
     public ReservationDTO(Reservation reservation)
     {
+        Id = reservation.Id;
         RoomId = reservation.RoomId;
         OrganizerName = reservation.OrganizerName;
         Topic = reservation.Topic;
