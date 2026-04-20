@@ -2,11 +2,11 @@
 
 public class Room
 {
-    public int id { get; set; }
-    public string name { get; set; }
-    public string buildingCode { get; set; }
-    public int floor { get; set; }
-    public int capacity { get; set; }
-    public bool hasProjector  { get; set; }
-    public bool isActive { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string BuildingCode { get; set; }
+    public int Floor { get; set; }
+    public int Capacity { get; set; }
+    public bool HasProjector  { get; set; }
+    public bool IsActive { get; set; }
 }
