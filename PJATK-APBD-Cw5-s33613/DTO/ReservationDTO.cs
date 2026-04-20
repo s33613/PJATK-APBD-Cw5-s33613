@@ -10,7 +10,7 @@ public class ReservationDTO
     public DateOnly Date { get; set; }
     public TimeOnly StartTime { get; set; }
     public TimeOnly EndTime  { get; set; }
-    public string Status { get; set; } // todo: make an enum
+    public States Status { get; set; } // todo: make an enum
 
     public ReservationDTO(Reservation reservation)
     {

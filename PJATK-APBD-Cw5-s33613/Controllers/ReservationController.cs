@@ -20,7 +20,7 @@ public class ReservationController : ControllerBase
         Date = new DateOnly(2025,10,2),
         StartTime = new TimeOnly(12,30),
         EndTime = new TimeOnly(13,30),
-        Status = "Active"
+        Status = States.planned
     },
     new Reservation()
     {
@@ -31,7 +31,7 @@ public class ReservationController : ControllerBase
         Date = new DateOnly(2025,10,2),
         StartTime = new TimeOnly(14,30),
         EndTime = new TimeOnly(15,30),
-        Status = "Planned"
+        Status = States.confirmed
     },
     new Reservation()
     {
@@ -42,10 +42,10 @@ public class ReservationController : ControllerBase
     Date = new DateOnly(2025,10,2),
     StartTime = new TimeOnly(12,30),
     EndTime = new TimeOnly(13,30),
-    Status = "Active"
+    Status = States.confirmed
     }];
     [HttpGet]
-    public IActionResult GetAllReservations([FromQuery] DateOnly? date, [FromQuery] int? roomId, [FromQuery] string? status)
+    public IActionResult GetAllReservations([FromQuery] DateOnly? date, [FromQuery] int? roomId, [FromQuery] States? status)
     {
         var selected = reservations.Where(e => (e.Date.Equals(date) || date is null)
                                      && (e.RoomId == roomId || roomId is null)

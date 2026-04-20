@@ -38,6 +38,15 @@ public class RoomsController : ControllerBase
         Capacity = 5,
         HasProjector = false,
         IsActive = true
+    },new Room()
+    {
+        Id = 4,
+        Name = "Room inactive",
+        BuildingCode = "a5",
+        Floor = 0,
+        Capacity = 5,
+        HasProjector = false,
+        IsActive = false
     }];
     [HttpGet]
     public IActionResult GetAllRooms([FromQuery] int? minCapacity, [FromQuery] bool? hasProjector, [FromQuery] bool? isActive)

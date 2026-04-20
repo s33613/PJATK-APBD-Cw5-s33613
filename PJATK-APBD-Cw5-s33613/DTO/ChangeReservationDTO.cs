@@ -1,4 +1,6 @@
-﻿namespace PJATK_APBD_Cw5_s33613.DTO;
+﻿using PJATK_APBD_Cw5_s33613.Objects;
+
+namespace PJATK_APBD_Cw5_s33613.DTO;
 using System.ComponentModel.DataAnnotations;
 public class ChangeReservationDTO
 {
@@ -10,5 +12,5 @@ public class ChangeReservationDTO
     public DateOnly Date { get; set; }
     public TimeOnly StartTime { get; set; }
     public TimeOnly EndTime  { get; set; }
-    public string Status { get; set; } // todo: make an enum
+    public States Status { get; set; } // todo: make an enum
 }
