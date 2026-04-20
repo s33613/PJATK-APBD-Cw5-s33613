@@ -66,7 +66,7 @@ public class RoomsController : ControllerBase
         return Ok(new RoomDTO(room));
     }
     [HttpGet("building/{buildingCode}")]
-    public IActionResult GetRoom2(string? buildingCode)
+    public IActionResult GetRoomsFromFloor(string? buildingCode)
     {
         var room = rooms.FirstOrDefault(e => e.BuildingCode == buildingCode);
         if (room is null)
@@ -76,4 +76,72 @@ public class RoomsController : ControllerBase
     
         return Ok(rooms.Where(e => e.BuildingCode == buildingCode).Select(e => new RoomDTO(e)));
     }
+    [HttpPost]
+    public IActionResult Add(CreateRoomDto dto)
+    {
+        if (dto.Floor < 0)
+            return BadRequest($"Floor {dto.Floor} is invalid");
+        if (dto.Capacity < 0)
+            return BadRequest($"Capacity {dto.Capacity} must be greater than zero");
+        if (dto.Name.Length == 0)
+            return BadRequest($"Name is required");
+        if (dto.BuildingCode.Length == 0)
+            return BadRequest($"BuildingCode is required");
+        var room = new Room
+        {
+            Id = rooms.Max(e => e.Id) + 1,
+            Name = dto.Name,
+            BuildingCode = dto.BuildingCode,
+            Floor = dto.Floor,
+            Capacity = dto.Capacity,
+            HasProjector = dto.HasProjector,
+            IsActive = true
+        };
+    
+        rooms.Add(room);
+    
+        // return Created($"students/{student.Id}", student);
+        return CreatedAtAction(nameof(GetRoom), new { id = room.Id }, room);
+    }
+    [HttpPut("{id:int}")]
+    public IActionResult Update(int id, ChangeRoomDTO updateDto)
+    {
+        var room = rooms.FirstOrDefault(e => e.Id == id);
+        if (room is null)
+        {
+            return NotFound($"room with id {id} not found");
+        }
+        if (updateDto is null)
+            return BadRequest($"Provided values are incorrect");
+        if (updateDto.Floor < 0)
+            return BadRequest($"Floor {updateDto.Floor} is invalid");
+        if (updateDto.Capacity < 0)
+            return BadRequest($"Capacity {updateDto.Capacity} must be greater than zero");
+        if (updateDto.Name.Length == 0)
+            return BadRequest($"Name is required");
+        if (updateDto.BuildingCode.Length == 0)
+            return BadRequest($"BuildingCode is required");
+        
+        room.Name = updateDto.Name;
+        room.BuildingCode = updateDto.BuildingCode;
+        room.Floor = updateDto.Floor;
+        room.Capacity = updateDto.Capacity;
+        room.HasProjector = updateDto.HasProjector;
+    
+        return NoContent();
+    }
+    [HttpDelete("{id:int}")]
+    public IActionResult Delete(int id)
+    {
+        var room = rooms.FirstOrDefault(e => e.Id == id);
+
+        if (room is null)
+        {
+            return NotFound($"room with id {id} not found");
+        }
+    
+        rooms.Remove(room);
+        return NoContent();
+    }
+    
 }
